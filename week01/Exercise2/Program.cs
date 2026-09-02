@@ -32,43 +32,43 @@ class Program
         }
 
         string plusMinus = "";
-
         int lastNumber = scoreRecord % 10;
 
         if (lastNumber >= 7)
         {
-            plusMinus = " +";
+            plusMinus = "+";
         }
         else if (lastNumber <= 3)
         {
-            plusMinus = " -";
+            plusMinus = "-";
         }
         else
         {
             plusMinus = "";
         }
 
-        if (scoreRecord >= 93)
-        {
-            plusMinus = "";
-        }
-        if (scoreRecord < 60)
+
+        if (letter == "A" && plusMinus == "+")
         {
             plusMinus = "";
         }
 
+
+        if (letter == "F")
+        {
+            plusMinus = "";
+        }
 
         Console.WriteLine($"Your grade is {letter}{plusMinus}");
 
-        if (scoreRecord > 70)
+
+        if (scoreRecord >= 70)
         {
             Console.WriteLine("Congratulations!!! You passed your exam.");
         }
-
         else
         {
             Console.WriteLine("Sorry! You failed the exam. Study harder next time.");
         }
-
     }
 }
