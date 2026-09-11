@@ -1,3 +1,5 @@
+using System.Text.Json; 
+
 public class Journal
 {
     public List<Entry> _entries = new List<Entry>();
@@ -14,37 +16,37 @@ public class Journal
             entry.Display();
         }
     }
-
     public void SaveToFile(string filename)
     {
-        using (StreamWriter outputFile = new StreamWriter(filename))
+        JsonSerializerOptions options = new JsonSerializerOptions
         {
-            foreach (Entry entry in _entries)
-            {
-                outputFile.WriteLine($"{entry._date}|{entry._promptText}|{entry._entryText}");
-            }
-        }
-    }
+            WriteIndented = true,
+            IncludeFields = true
+        };
 
+        string jsonString = JsonSerializer.Serialize(_entries, options);
+        File.WriteAllText(filename, jsonString);
+    }
     public void LoadFromFile(string filename)
     {
-        _entries.Clear();
-
-        string[] lines = File.ReadAllLines(filename);
-
-        foreach (string line in lines)
+        if (!File.Exists(filename))
         {
-            string[] parts = line.Split("|");
+            Console.WriteLine("File not found.");
+            return;
+        }
 
-            if (parts.Length == 3)
-            {
-                Entry entry = new Entry();
-                entry._date = parts[0].Trim();
-                entry._promptText = parts[1].Trim();
-                entry._entryText = parts[2].Trim();
+        string jsonString = File.ReadAllText(filename);
 
-                _entries.Add(entry);
-            }
+        JsonSerializerOptions options = new JsonSerializerOptions
+        {
+            IncludeFields = true
+        };
+
+        _entries = JsonSerializer.Deserialize<List<Entry>>(jsonString, options);
+
+        if (_entries == null)
+        {
+            _entries = new List<Entry>();
         }
     }
 }

@@ -1,11 +1,18 @@
+/* Using the built-in System.Text.Json library, the journal now 
+ saves and loads in JSON format .json instead of a plain text or csv file.
+ The changes are in the Journal class at (SaveToFile and LoadFromFile methods).
+*/
+
 using System;
 using System.Collections.Generic;
 using System.IO;
+using System.Text.Json;
 
 class Program
 {
     static void Main(string[] args)
     {
+
         Journal journal = new Journal();
         PromptGenerator promptGenerator = new PromptGenerator();
 
@@ -46,17 +53,17 @@ class Program
             }
             else if (choice == "3")
             {
-                Console.Write("What is the filename? ");
+                Console.Write("What is the filename? (example: journal.json) ");
                 string filename = Console.ReadLine();
                 journal.LoadFromFile(filename);
-                Console.WriteLine("Your Journal have been Loaded.");
+                Console.WriteLine("Your Journal has been Loaded.");
             }
             else if (choice == "4")
             {
-                Console.Write("What is the filename? (End the name with .txt or .csv) ");
+                Console.Write("What is the filename? (example: journal.json) ");
                 string filename = Console.ReadLine();
                 journal.SaveToFile(filename);
-                Console.WriteLine("Your Journal have been Saved.");
+                Console.WriteLine("Your Journal has been Saved.");
             }
             else if (choice == "5")
             {
@@ -66,8 +73,6 @@ class Program
             {
                 Console.WriteLine("Invalid choice, Try again by typing in a number.");
             }
-
         }
-        
     }
 }
